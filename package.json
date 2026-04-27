@@ -1,0 +1,25 @@
+{
+  "name": "distortion",
+  "version": "1.0.0",
+  "description": "A social media mock-up focused on the glitch and corruption.",
+  "homepage": "https://github.com/Ncp294/dIsToRtIoN#readme",
+  "bugs": {
+    "url": "https://github.com/Ncp294/dIsToRtIoN/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ncp294/dIsToRtIoN.git"
+  },
+  "license": "ISC",
+  "author": "Nathan Palmer",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  }
+}
