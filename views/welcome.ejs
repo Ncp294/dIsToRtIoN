@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>dIsToRtIoN: Main Page</title>
+    </head>
+
+    <body>
+        <h1>Hi, <%= user.name %>!</h1>
+
+        <form action="/welcome" method="post">
+            <textarea name="post" id="post"></textarea>
+
+            <input type="hidden" name="username" id="username" value="<%= user.username %>">
+            <input type="hidden" name="password" id="password" value="<%= user.password %>">
+            <input type="submit" name="submit" id="Submit">
+        </form>
+
+        <h3>Previous Posts</h3>
+
+        <div id="pastPosts"></div>
+
+        <a href="/"><button>Logout</button></a>
+
+        <div id="userData"
+            data-posts="<%= JSON.stringify(user.posts) %>">
+        </div>
+
+        <script src="js/welcome.js"></script>
+    </body>
+</html>
