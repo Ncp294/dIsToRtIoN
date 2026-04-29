@@ -20,12 +20,23 @@ db.exec(`
     );
 `);
 
+db.exec(`
+    CREATE TABLE IF NOT EXISTS posts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        content TEXT NOT NULL,
+        author TEXT NOT NULL
+    );
+`);
+
 app.get('/', (req, res) => {
     res.redirect('/home');
 });
 
 app.get('/home', (req, res) => {
-    res.render('home');
+    let posts = db.prepare('SELECT * FROM posts').all();
+    res.render('home', {
+        'posts': posts
+    });
 });
 
 app.get('/register', (req, res) => {
@@ -43,13 +54,17 @@ app.post('/welcome', (req, res) => {
     let from = req.get('Referrer');
 
     if (from.includes('register')) {
+        //TODO: Make username specific
         console.log('registering');
         let name = req.body['name'];
 
         db.prepare('INSERT INTO users (username, password, name) VALUES (?, ?, ?)').run(username, password, name);
     } else if (from.includes('welcome')) {
         let newPost = req.body['post'];
-        db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(newPost, username);
+        db.prepare('INSERT INTO posts (content, author) VALUES (?, ?)').run(newPost, username);
+        let post = db.prepare('SELECT * FROM posts WHERE content = ?').get(newPost);
+
+        db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(post.id, username);
     }
 
     let currentUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
