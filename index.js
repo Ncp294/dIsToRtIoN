@@ -1,10 +1,12 @@
 // initialize application
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8080;
 const path = require('path');
 
 app.use(express.static('public'));
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 
@@ -70,13 +72,13 @@ app.post('/welcome', (req, res) => {
         db.prepare('INSERT INTO users (username, password, name) VALUES (?, ?, ?)').run(username, password, name);
 
     // if coming from profile page, create post
-    } else if (from.includes('welcome')) {
+    } else if (from.includes('post')) {
         let newPost = req.body['post'];
         db.prepare('INSERT INTO posts (content, author) VALUES (?, ?)').run(newPost, username);
         let post = db.prepare('SELECT * FROM posts WHERE content = ?').get(newPost);
 
         db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(post.id, username);
-    }
+    } 
 
     // get user info from db based on login
     let currentUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
@@ -85,10 +87,30 @@ app.post('/welcome', (req, res) => {
     if (currentUser.password !== password) {
         res.send("Wrong password, try again!");
     } else {
+        res.cookie('username', currentUser.username, {maxAge: 3600000});
+        res.cookie('password', currentUser.password, {maxAge: 3600000});
         res.render('welcome', {
             'user': currentUser
         });
     }
+});
+
+// render posting page
+app.get('/post', (req, res) => {
+    const username = req.cookies.username;
+    const password = req.cookies.password;
+
+    console.log(username);
+    console.log(password);
+
+    const user = {
+        username: username,
+        password: password 
+    };
+
+    res.render('post', {
+        'user': user
+    });
 });
 
 // open app on designated port
