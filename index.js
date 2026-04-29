@@ -21,7 +21,11 @@ db.exec(`
 `);
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.redirect('/home');
+});
+
+app.get('/home', (req, res) => {
+    res.render('home');
 });
 
 app.get('/register', (req, res) => {
