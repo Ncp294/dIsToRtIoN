@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>dIsToRtIoN</title>
+    </head>
+
+    <body>
+        <h1><%= user.name %></h1>
+
+        <a href="/post"><button>Post</button></a>
+
+        <div id="posts"></div>
+
+        <div id="userData"
+            data-posts="<%= JSON.stringify(posts) %>">
+        </div>
+
+        <script src="../js/home.js"></script>
+    </body>
+</html>
