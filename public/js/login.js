@@ -3,4 +3,6 @@ let registering = userData.dataset.registering;
 
 if ( registering == "true" ) {
     alert("Successfully registered!! Please log in.");
+} else if ( registering == "incorrect") {
+    alert("Incorrect username or password, please try again.");
 }

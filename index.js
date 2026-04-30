@@ -75,10 +75,16 @@ app.get('/register', (req, res) => {
 
 // register and redirect new users
 app.post('/register', (req, res) => {
-    //TODO: Make sure they enter things
     let username = req.body['username'];
     let password = req.body['password'];
     let name = req.body['name'];
+
+    if ( username == '' || password == '' || name == '' ) {
+        res.render('register', {
+            "taken": "empty"
+        });
+        return;
+    }
 
     const attemptedUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
     if ( attemptedUser ) {
@@ -109,7 +115,9 @@ app.post('/login', (req, res) => {
     const currentUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
 
     if (currentUser.password !== password) {
-        res.send("Wrong password, try again!");
+        res.render('login', {
+            "registering": "incorrect"
+        });
     } else {
         res.cookie('username', currentUser.username, {maxAge: 3600000});
         res.cookie('password', currentUser.password, {maxAge: 3600000});
