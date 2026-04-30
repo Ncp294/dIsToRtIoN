@@ -63,26 +63,37 @@ app.get('/home', (req, res) => {
 
 // render register page
 app.get('/register', (req, res) => {
-    res.render('register');
+    let taken = false;
+    const from = req.get('Referrer');
+    if ( from && from.includes('register')) {
+        taken = true;
+    }
+    res.render('register', {
+        "taken": taken
+    });
 });
 
 // register and redirect new users
 app.post('/register', (req, res) => {
-    //TODO: Make username specific so no dupes
+    //TODO: Make sure they enter things
     let username = req.body['username'];
     let password = req.body['password'];
     let name = req.body['name'];
 
-    db.prepare('INSERT INTO users (username, password, name) VALUES (?, ?, ?)').run(username, password, name);
-    res.redirect('login');
+    const attemptedUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+    if ( attemptedUser ) {
+        res.redirect('register');
+    } else {
+        db.prepare('INSERT INTO users (username, password, name) VALUES (?, ?, ?)').run(username, password, name);
+        res.redirect('login');
+    }
 });
 
 // render login page
 app.get('/login', (req, res) => {
     let registering = false;
     const from = req.get('Referrer');
-    console.log(from);
-    if (from.includes('register')) {
+    if ( from && from.includes('register')) {
         registering = true;
     }
     res.render('login', {
