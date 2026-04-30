@@ -41,19 +41,9 @@ app.get('/', (req, res) => {
 
 // send post data to home page and render
 app.get('/home', (req, res) => {
-    const username = req.cookies.username;
-    const password = req.cookies.password;
-    let currentUser = undefined;
-
-    if ( username ){
-        currentUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
-    }
-
     let posts = db.prepare('SELECT * FROM posts').all();
 
-    if (!username || !password || password !== currentUser.password) {
-        currentUser = undefined;
-    }
+    const currentUser = checkLogin(req);
 
     res.render('home', {
         'posts': posts,
@@ -102,6 +92,7 @@ app.get('/login', (req, res) => {
     if ( from && from.includes('register')) {
         registering = true;
     }
+
     res.render('login', {
         "registering": registering
     });
@@ -127,18 +118,17 @@ app.post('/login', (req, res) => {
 
 // render posting page
 app.get('/post', (req, res) => {
-    // TODO: ensure user properly logged in
-    const username = req.cookies.username;
-    const password = req.cookies.password;
+    const currentUser = checkLogin(req);
 
-    const user = {
-        username: username,
-        password: password 
-    };
-
-    res.render('post', {
-        'user': user
-    });
+    if ( !currentUser ) {
+        res.render('login', {
+            "registering": "post"
+        });
+    } else {
+        res.render('post', {
+            'user': currentUser
+        });
+    }
 });
 
 app.post('/post', (req, res) => {
@@ -172,3 +162,19 @@ app.get('/profile/:username', (req, res) => {
 app.listen(port, () => {
     console.log("Now listening on port " + port + "...");
 });
+
+function checkLogin(req) {
+    const username = req.cookies.username;
+    const password = req.cookies.password;
+    let currentUser = undefined;
+
+    if ( username ) {
+        currentUser = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+    }
+
+    if ( !username || !password || !currentUser || password !== currentUser.password ) {
+        return undefined;
+    }
+
+    return currentUser;
+}
