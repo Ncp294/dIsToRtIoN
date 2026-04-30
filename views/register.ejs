@@ -8,7 +8,7 @@
     <body>
         <h1>Register for dIsToRtIoN!</h1>
 
-        <form action="/welcome" method="post">
+        <form action="/register" method="post">
             <div class="formElement">
                 <label for="username">Username: </label>
                 <input type="text" name="username" id="username">
@@ -26,5 +26,11 @@
 
             <input type="submit" name="submit" id="submit" value="Submit">
         </form>
+
+        <div id="userData"
+            data-taken="<%= taken %>">
+        </div>
+
+        <script src="js/register.js"></script>
     </body>
 </html>

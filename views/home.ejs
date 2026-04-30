@@ -9,15 +9,19 @@
         <h1>dIsToRtIoN</h1>
         <p>A social media mock-up focused on the glitch and corruption.</p>
 
-        <a href="/register"><button>Register</button></a>
-        <a href="/login"><button>Login</button></a>
+        <div id="controlCenter">
+            <a href="/register"><button id="register">Register</button></a>
+            <a href="/login"><button id="login">Login</button></a>
+            <a href="/post"><button id="post">Post</button></a>
+        </div>
 
         <h3>tImElInE</h3>
 
         <div id="posts"></div>
 
         <div id="userData"
-            data-posts="<%= JSON.stringify(posts) %>">
+            data-posts="<%= JSON.stringify(posts) %>"
+            data-user="<%= JSON.stringify(user) %>"> 
         </div>
 
         <script src="js/home.js"></script>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>dIsToRtIoN: Main Page</title>
+        <title>dIsToRtIoN: Post</title>
     </head>
 
     <body>
-        <h1>Hi, <%= user.name %>!</h1>
+        <h1>Make a post!</h1>
 
-        <form action="/welcome" method="post">
+        <form action="/post" method="post">
             <textarea name="post" id="post"></textarea>
 
             <input type="hidden" name="username" id="username" value="<%= user.username %>">
             <input type="hidden" name="password" id="password" value="<%= user.password %>">
-            <input type="submit" name="submit" id="Submit">
+            <input type="submit" name="submit" id="submit" value="Submit">
         </form>
 
         <a href="/home"><button>Home</button></a>
