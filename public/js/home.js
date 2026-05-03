@@ -33,19 +33,68 @@ for (let i = posts.length-1; i > -1; i--) {
     const div = document.createElement('div');
     const content = document.createElement('img');
     const author = document.createElement('h3');
+    const imgDiv = document.createElement('div');
 
     author.style.marginLeft = "2%";
 
     // nest DOM elements
     content.src = "data/" + post.content;
     author.appendChild(auth);
+    imgDiv.appendChild(content);
+    imgDiv.style.position = 'relative';
 
     div.id = Math.floor(posts[i].id);
 
     div.appendChild(author);
-    div.appendChild(content);
+    div.appendChild(imgDiv);
 
     div.classList.add('post');
 
     document.getElementById('posts').appendChild(div);
+}
+
+// distort the images
+const images = document.getElementsByTagName('img');
+const maxRect = 6; // max number of rects put on top of each image
+
+for (let i = 0; i < images.length; i++) {
+    images[i].onload = () => {
+        // apply css filters to the images
+        const brightness = Math.floor(Math.random() * 150 + 100);
+        const rotate = Math.floor(Math.random() * 360);
+        const invert = Math.floor(Math.random() * 100); 
+        const saturate = Math.floor(Math.random() * 100 + 100);
+
+        images[i].style.filter = 'brightness(' + brightness + '%) hue-rotate(' + rotate + 'deg) invert(' + invert + '%) saturate(' + saturate + '%)';
+
+        // get bounds of each image to create elements on top of them
+        const rect = images[i].getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
+
+        for (let j = 0; j < maxRect; j++) {
+            const rectangle = document.createElement('div');
+            rectangle.classList.add('glitch');
+            // make half of them across width and half across length
+            let width, height, x, y;
+            if (Math.random() > 0.5) {
+                width = w;
+                x = 0;
+                height = Math.random() * h / 4;
+                y = Math.max(Math.random() * h - height);
+            } else {
+                width = Math.random() * w / 6;
+                x = Math.max(0, Math.random() * w - width);
+                height = h;
+                y = 0;
+            }
+
+            rectangle.style.width = width + 'px';
+            rectangle.style.height = height + 'px';
+            rectangle.style.left = x + 'px';
+            rectangle.style.top = y + 'px';
+
+            images[i].parentElement.appendChild(rectangle);
+        }
+    }
 }
