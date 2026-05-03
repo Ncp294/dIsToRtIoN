@@ -7,11 +7,11 @@
     <body>
         <h1>Make a post!</h1>
 
-        <form action="/post" method="post">
-            <textarea name="post" id="post"></textarea>
-
-            <input type="hidden" name="username" id="username" value="<%= user.username %>">
-            <input type="hidden" name="password" id="password" value="<%= user.password %>">
+        <form action="/post" 
+        enctype="multipart/form-data" method="post">
+            <span>Upload Photo:</span>
+            
+            <input type="file" name="mypic" required/> <br>
             <input type="submit" name="submit" id="submit" value="Submit">
         </form>
 

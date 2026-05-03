@@ -1,6 +1,7 @@
 // initialize application
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
 const app = express();
 const port = 8080;
 const path = require('path');
@@ -34,6 +35,36 @@ db.exec(`
     );
 `);
 
+// set up multer image storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "data");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "-" + file.originalname);
+    }
+});
+
+// define max upload
+const maxSize = 1 * 1000 * 1000;
+
+// multer config
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: maxSize },
+    fileFilter: function (req, file, cb) {
+        const fileTypes = /jpeg|jpg|png/;
+        const mimeType = fileTypes.test(file.mimetype);
+        const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+
+        if ( mimeType && extName ) {
+            return cb(null, true);
+        }
+
+        cb("File upload only supports the following types: " + fileTypes);
+    }
+}).single("mypic");
+
 // redirect main entrypoint to home page
 app.get('/', (req, res) => {
     res.redirect('/home');
@@ -41,6 +72,7 @@ app.get('/', (req, res) => {
 
 // send post data to home page and render
 app.get('/home', (req, res) => {
+    // TODO: have home display images in the data folder
     let posts = db.prepare('SELECT * FROM posts').all();
 
     const currentUser = checkLogin(req);
@@ -112,7 +144,7 @@ app.post('/login', (req, res) => {
     } else {
         res.cookie('username', currentUser.username, {maxAge: 3600000});
         res.cookie('password', currentUser.password, {maxAge: 3600000});
-        res.redirect('/home');
+        res.redirect('home');
     }
 });
 
@@ -132,14 +164,24 @@ app.get('/post', (req, res) => {
 });
 
 app.post('/post', (req, res) => {
-    let username = req.body['username'];
-    let password = req.body['password'];
+    const currentUser = checkLogin(req);
 
-    let newPost = req.body['post'];
-    db.prepare('INSERT INTO posts (content, author) VALUES (?, ?)').run(newPost, username);
-    let post = db.prepare('SELECT * FROM posts WHERE content = ?').get(newPost);
+    upload(req, res, function (err) {
+        if (err) {
+            console.log("error");
+            console.log(err);
+            res.send(err);
+        } else {
+            res.redirect('home');
+        }
+    });
 
-    db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(post.id, username);
+    // TODO: store img names in user database
+    // let newPost = req.body['post'];
+    // db.prepare('INSERT INTO posts (content, author) VALUES (?, ?)').run(newPost, username);
+    // let post = db.prepare('SELECT * FROM posts WHERE content = ?').get(newPost);
+
+    // db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(post.id, username);
 });
 
 app.get('/profile/:username', (req, res) => {
