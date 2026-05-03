@@ -72,7 +72,6 @@ app.get('/', (req, res) => {
 
 // send post data to home page and render
 app.get('/home', (req, res) => {
-    // TODO: have home display images in the data folder
     let posts = db.prepare('SELECT * FROM posts').all();
 
     const currentUser = checkLogin(req);
@@ -146,6 +145,13 @@ app.post('/login', (req, res) => {
         res.cookie('password', currentUser.password, {maxAge: 3600000});
         res.redirect('home');
     }
+});
+
+app.get('/logout', (req, res) => {
+    res.clearCookie('username');
+    res.clearCookie('password');
+
+    res.redirect('home');
 });
 
 // render posting page
