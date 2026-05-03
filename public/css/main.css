@@ -65,6 +65,10 @@ body {
     right: 10%; 
 }
 
+#logout {
+    left: 1%;
+}
+
 #post {
     margin-top: 20%;
     color: white;

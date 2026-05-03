@@ -6,16 +6,19 @@ let user = userData.dataset.user;
 const controlCenter = document.getElementById('controlCenter');
 const regButton = document.getElementById('register');
 const loginButton = document.getElementById('login');
+const logoutButton = document.getElementById('logout');
 const postButton = document.getElementById('post');
 
 if (user) {
     user = JSON.parse(user);
     regButton.style.visibility = 'hidden';
     loginButton.style.visibility = 'hidden';
+    logoutButton.style.visibility = 'visible';
     postButton.style.visibility = 'visible';
 } else {
     regButton.style.visibility = 'visible';
     loginButton.style.visibility = 'visible';
+    logoutButton.style.visibility = 'hidden';
     postButton.style.visibility = 'hidden';
 }
 
