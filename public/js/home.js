@@ -38,7 +38,7 @@ for (let i = posts.length-1; i > -1; i--) {
     author.style.marginLeft = "2%";
 
     // nest DOM elements
-    content.src = "data/" + post.content;
+    content.src = "/data/" + post.content;
     author.appendChild(auth);
     imgDiv.appendChild(content);
     imgDiv.style.position = 'relative';
