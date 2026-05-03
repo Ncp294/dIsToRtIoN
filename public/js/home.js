@@ -53,13 +53,20 @@ for (let i = posts.length-1; i > -1; i--) {
     document.getElementById('posts').appendChild(div);
 }
 
-// create the glitch look
-// TODO: look into displaying corrupt images if time allots
+// distort the images
 const images = document.getElementsByTagName('img');
 const maxRect = 6; // max number of rects put on top of each image
 
 for (let i = 0; i < images.length; i++) {
     images[i].onload = () => {
+        // apply css filters to the images
+        const brightness = Math.floor(Math.random() * 150 + 100);
+        const rotate = Math.floor(Math.random() * 360);
+        const invert = Math.floor(Math.random() * 100); 
+        const saturate = Math.floor(Math.random() * 100 + 100);
+
+        images[i].style.filter = 'brightness(' + brightness + '%) hue-rotate(' + rotate + 'deg) invert(' + invert + '%) saturate(' + saturate + '%)';
+
         // get bounds of each image to create elements on top of them
         const rect = images[i].getBoundingClientRect();
         const w = rect.width;
