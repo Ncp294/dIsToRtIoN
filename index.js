@@ -38,7 +38,7 @@ db.exec(`
 // set up multer image storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "data");
+        cb(null, "data/");
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
@@ -63,7 +63,7 @@ const upload = multer({
 
         cb("File upload only supports the following types: " + fileTypes);
     }
-}).single("mypic");
+});
 
 // redirect main entrypoint to home page
 app.get('/', (req, res) => {
@@ -163,25 +163,14 @@ app.get('/post', (req, res) => {
     }
 });
 
-app.post('/post', (req, res) => {
+app.post('/post', upload.single('mypic'), (req, res) => {
     const currentUser = checkLogin(req);
+    const fileName = req.file.filename;
 
-    upload(req, res, function (err) {
-        if (err) {
-            console.log("error");
-            console.log(err);
-            res.send(err);
-        } else {
-            res.redirect('home');
-        }
-    });
+    db.prepare('INSERT INTO posts (content, author) VALUES (?, ?)').run(fileName, currentUser.username);
+    db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(fileName, currentUser.username);
 
-    // TODO: store img names in user database
-    // let newPost = req.body['post'];
-    // db.prepare('INSERT INTO posts (content, author) VALUES (?, ?)').run(newPost, username);
-    // let post = db.prepare('SELECT * FROM posts WHERE content = ?').get(newPost);
-
-    // db.prepare('UPDATE users SET posts = json_insert(posts, \'$[#]\', ?) WHERE username = ?').run(post.id, username);
+    res.redirect('home');
 });
 
 app.get('/profile/:username', (req, res) => {
