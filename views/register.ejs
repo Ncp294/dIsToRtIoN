@@ -6,26 +6,28 @@
     </head>
 
     <body>
-        <h1>Register for dIsToRtIoN!</h1>
+        <div class="container">
+            <h1>Register for dIsToRtIoN!</h1>
 
-        <form action="/register" method="post">
-            <div class="formElement">
-                <label for="username">Username: </label>
-                <input type="text" name="username" id="username">
-            </div>
+            <form action="/register" method="post">
+                <div class="formElement">
+                    <label for="username">Username: </label>
+                    <input type="text" name="username" id="username">
+                </div>
 
-            <div class="formElement">
-                <label for="password">Password: </label>
-                <input type="text" name="password" id="password">
-            </div>
+                <div class="formElement">
+                    <label for="password">Password: </label>
+                    <input type="text" name="password" id="password">
+                </div>
 
-            <div class="formElement">
-                <label for="name">Name: </label>
-                <input type="text" name="name" id="name">
-            </div>
+                <div class="formElement">
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name">
+                </div>
 
-            <input type="submit" name="submit" id="submit" value="Submit">
-        </form>
+                <input type="submit" name="submit" id="submit" value="Submit">
+            </form>
+        </div>
 
         <div id="userData"
             data-taken="<%= taken %>">

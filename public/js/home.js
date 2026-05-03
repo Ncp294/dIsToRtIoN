@@ -11,7 +11,7 @@ const postButton = document.getElementById('post');
 if (user) {
     user = JSON.parse(user);
     regButton.style.visibility = 'hidden';
-    loginButton.style.visibility = 'hidden ';
+    loginButton.style.visibility = 'hidden';
     postButton.style.visibility = 'visible';
 } else {
     regButton.style.visibility = 'visible';
@@ -30,6 +30,8 @@ for (let i = posts.length-1; i > -1; i--) {
     const div = document.createElement('div');
     const content = document.createElement('img');
     const author = document.createElement('h3');
+
+    author.style.marginLeft = "2%";
 
     // nest DOM elements
     content.src = "data/" + post.content;
