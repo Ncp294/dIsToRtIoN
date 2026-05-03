@@ -10,14 +10,12 @@ const postButton = document.getElementById('post');
 
 if (user) {
     user = JSON.parse(user);
-    console.log("user");
     regButton.style.visibility = 'hidden';
     loginButton.style.visibility = 'hidden';
-    postButton.style.visibility = '';
+    postButton.style.visibility = 'visible';
 } else {
-    console.log('nouser');
-    regButton.style.visibility = '';
-    loginButton.style.visibility = '';
+    regButton.style.visibility = 'visible';
+    loginButton.style.visibility = 'visible';
     postButton.style.visibility = 'hidden';
 }
 
@@ -33,6 +31,8 @@ for (let i = posts.length-1; i > -1; i--) {
     const content = document.createElement('img');
     const author = document.createElement('h3');
 
+    author.style.marginLeft = "2%";
+
     // nest DOM elements
     content.src = "data/" + post.content;
     author.appendChild(auth);
@@ -41,6 +41,8 @@ for (let i = posts.length-1; i > -1; i--) {
 
     div.appendChild(author);
     div.appendChild(content);
+
+    div.classList.add('post');
 
     document.getElementById('posts').appendChild(div);
 }

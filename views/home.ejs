@@ -3,21 +3,22 @@
 <html>
     <head>
         <title>dIsToRtIoN</title>
+        <link rel="stylesheet" href="css/main.css">
     </head>
 
     <body>
-        <h1>dIsToRtIoN</h1>
-        <p>A social media mock-up focused on the glitch and corruption.</p>
-
-        <div id="controlCenter">
-            <a href="/register"><button id="register">Register</button></a>
-            <a href="/login"><button id="login">Login</button></a>
-            <a href="/post"><button id="post">Post</button></a>
+        <div id="navBar">
+            <h1 id="mainTitle">dIsToRtIoN</h1>
+            <a href="/register"><button class="navButton" id="register">rEgIsTeR</button></a>
+            <a href="/login"><button class="navButton" id="login">lOgIn</button></a>
         </div>
 
-        <h3>tImElInE</h3>
+        <div id="mainContent">
+            <a href="/post"><button id="post">pOsT</button></a>
 
-        <div id="posts"></div>
+            <h3 id="timelineTitle">tImElInE</h3>
+            <div id="posts"></div>
+        </div>
 
         <div id="userData"
             data-posts="<%= JSON.stringify(posts) %>"

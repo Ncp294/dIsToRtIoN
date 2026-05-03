@@ -1,3 +1,100 @@
+html {
+    font-size: 100%;
+    color: white;
+    background-color: black;
+}
+
 .formElement {
     margin-bottom: 1%;
+}
+
+body {
+    margin: 0;
+}
+
+#navBar {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    width: 100%;
+    height: 10%;
+    background-color: #303030;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mainContent {
+    position: absolute;
+    top: 10%;
+    margin: 0%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#mainTitle {
+    color: white;
+    margin: 0;
+    font-size: 3.5em;
+}
+
+#timelineTitle {
+    font-size: 2em;
+}
+
+.navButton {
+    position: absolute;
+    color: white;
+    background-color: black;
+    height: 70%;
+    width: 8%;
+    border-radius: 25px;
+    top: 15%;
+}
+
+#register {
+    right: 1%;
+}
+
+#login {
+    right: 10%; 
+}
+
+#post {
+    margin-top: 20%;
+    color: white;
+    background-color: #303030;
+    border-radius: 25px;
+    font-size: larger;
+}
+
+#posts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.post {
+    width: 50%;
+    background-color: #303030;
+    border-radius: 25px;
+    margin-bottom: 2%;
+}
+
+img {
+    max-width: 100%;
+    margin-bottom: 5%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

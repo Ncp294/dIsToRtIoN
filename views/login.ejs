@@ -6,21 +6,25 @@
     </head>
 
     <body>
-        <h1>Weclome back!</h1>
-        
-        <form action="/login" method="post">
-            <div class="formElement">
-                <label for="username">Username: </label>
-                <input type="text" name="username" id="username">
-            </div>
+        <div class="container">
+            <h1>wElCoMe bAcK!</h1>
+            <form action="/login" method="post">
+                <div class="formElement">
+                    <label for="username">uSeRnAmE: </label>
+                    <input type="text" name="username" id="username">
+                </div>
 
-            <div class="formElement">
-                <label for="password">Password: </label>
-                <input type="text" name="password" id="password">
-            </div>
+                <div class="formElement">
+                    <label for="password">pAsSwOrD: </label>
+                    <input type="text" name="password" id="password">
+                </div>
 
-            <input type="submit" name="submit" id="submit" value="Submit">
-        </form>
+                <input type="submit" name="submit" id="submit" value="sUbMiT">
+            </form>
+
+            <h3 style="margin-bottom: 0;">dOn'T hAvE aN aCcOuNt?</h3>
+            <a href="/register"><button>rEgIsTeR</button></a>
+        </div>
 
         <div id="userData"
             data-registering="<%= registering %>">
