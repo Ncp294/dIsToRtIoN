@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 const { DatabaseSync } = require('node:sqlite');
-const db = new DatabaseSync('database.db', { readonly: false });
+const db = new DatabaseSync('/data/database.db', { readonly: false });
 
 // create user data table
 db.exec(`
@@ -38,7 +38,7 @@ db.exec(`
 // set up multer image storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/data/");
+        cb(null, "/data/");
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
