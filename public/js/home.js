@@ -3,7 +3,6 @@ const userData = document.getElementById('userData');
 let posts = JSON.parse(userData.dataset.posts);
 let user = userData.dataset.user;
 
-
 const controlCenter = document.getElementById('controlCenter');
 const regButton = document.getElementById('register');
 const loginButton = document.getElementById('login');
@@ -28,15 +27,14 @@ for (let i = posts.length-1; i > -1; i--) {
 
     // create text nodes
     const auth = document.createTextNode(post.author);
-    const cont = document.createTextNode(post.content);
 
     // create DOM elements
     const div = document.createElement('div');
-    const content = document.createElement('p');
+    const content = document.createElement('img');
     const author = document.createElement('h3');
 
     // nest DOM elements
-    content.appendChild(cont);
+    content.src = "data/" + post.content;
     author.appendChild(auth);
 
     div.id = Math.floor(posts[i].id);
