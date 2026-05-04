@@ -38,7 +38,7 @@ db.exec(`
 // set up multer image storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/data/");
+        cb(null, "/data/");
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
